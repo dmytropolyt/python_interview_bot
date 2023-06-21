@@ -1,0 +1,2 @@
+web: gunicorn interview_tg_bot.wsgi
+worker: python main.py
