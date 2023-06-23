@@ -4,9 +4,28 @@ services:
   app:
     build: .
     volumes:
-      - ./interview_tg_bot:/app
-    command: gunicorn django_air_erp_system.wsgi:application --bind 0.0.0.0:8000 && python main.py
+      - static_volume:/app/staticfiles
+    command: gunicorn interview_tg_bot.wsgi:application --bind 0.0.0.0:8000 && python main.py
     expose:
       - 8000
     env_file:
       - ./.env
+
+  bot:
+    build: .
+    command: python main.py
+    env_file:
+      - ./.env
+
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/app/staticfiles
+    ports:
+      - "1337:80"
+    depends_on:
+      - app
+
+
+volumes:
+  static_volume:

@@ -10,3 +10,9 @@ services:
     command: python manage.py migrate && python manage.py runserver && python main.py
     env_file:
       - ./.env
+
+  bot:
+    build: .
+    command: python main.py
+    env_file:
+      - ./.env
